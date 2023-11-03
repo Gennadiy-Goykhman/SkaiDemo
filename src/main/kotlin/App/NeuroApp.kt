@@ -30,7 +30,7 @@ object NeuroApp {
             Введите ожидаемый прогноз(Численно, где 1 - дедлайн будет пропущен, а 0 - всё будет сдано вовремя):
         """.trimIndent())
         val target = readln().toDouble()
-        neuroNetModel.train(generateObjectsArray(data), generateTargetsArray(target))
+        neuroNetModel.train(generateObjectsArray(data), generateTargetsArray(target), 10)
         println("""
             Супер, модель прошла тренировку. 
             Теперь введите признаки для того, чтобы получить прогноз:

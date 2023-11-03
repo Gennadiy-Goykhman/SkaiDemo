@@ -22,13 +22,13 @@ fun generateTargetsArray(vararg targets: Double) = mk.d1array(targets.size){targ
 
 
 fun BuilderSkaiScope.fullConnectedLayer(weights: D2Array<Double>) {
-    val data = mk.d1array(context.currentData.size) { context.currentData[it] }
-    context.currentWeights = weights
-    context.currentData = mk.linalg.dot(weights,data).toList()
+    val data = mk.d1array(context.currentData.get().size) { context.currentData.get()[it] }
+    context.currentWeights.set(weights)
+    context.currentData.set(mk.linalg.dot(weights,data).toList())
 }
 
 fun BuilderSkaiScope.setupClassificationOutput(outputMap: Map<(Double) -> Boolean, String>) {
-    val data = context.currentData
+    val data = context.currentData.get()
     context.currentResults = data.mapNotNull { resultValue ->
         outputMap[outputMap.keys.find { it(resultValue) }]
     }
