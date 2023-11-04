@@ -13,8 +13,8 @@ internal open class MainSkaiModel(
     private val modelActions: BuilderSkaiScope.() -> Unit
 ): SkaiModel, BackPropogation<BuilderSkaiScope> by BackPropogationExecutor() {
     override fun train(objects: ObjectsArray, targets: TargetsArray, epochs: Int) =
-        repeat(epochs){
-            skaiScope.goForward(objects, targets, modelActions)
+        repeat(epochs){ epoch ->
+            skaiScope.goForward(objects, targets, epoch+1, modelActions)
         }
 
     override fun predict(objects: ObjectsArray) {
