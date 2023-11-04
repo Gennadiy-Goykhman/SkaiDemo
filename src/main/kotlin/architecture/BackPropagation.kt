@@ -5,6 +5,7 @@ import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.ndarray
 import org.jetbrains.kotlinx.multik.ndarray.data.D1Array
 import org.jetbrains.kotlinx.multik.ndarray.data.D2Array
+import org.jetbrains.kotlinx.multik.ndarray.data.NDArray
 import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.operations.*
 import java.util.*
@@ -68,15 +69,8 @@ class BackPropagationExecutor<T: SkaiScope>: BackPropagation<T> {
             else
                 mk.ndarray((mk.ndarray(listOf(delta.toList())) dot newWeights).toDoubleArray()) * localGradient(data)
 
-        println("""
-            |////////////////////////////////////////////////
-            |Новые веса на итерации ${newWeightStack.size + 1}:
-            |$newWeights
-            |
-            |Новые дельта на итерации ${newWeightStack.size + 1}
-            |$newDelta
-        """.trimMargin()
-        )
+        outputEpochResult(newWeights, newDelta, newWeightStack.size + 1)
+
         newWeightStack.push(newWeights)
         return countBackwardPropogation(newDelta, newWeightStack)
     }
@@ -85,4 +79,14 @@ class BackPropagationExecutor<T: SkaiScope>: BackPropagation<T> {
 
     private fun localGradient(value: D1Array<Double>) = value.map { x -> 0.5 * (1 + x) * (1 - x) }
 
+    private fun outputEpochResult(weights: D2Array<Double>, deltas: D1Array<Double>, step: Int)
+        = println("""
+            |////////////////////////////////////////////////
+            |Новые веса на итерации $step:
+            |$weights
+            |
+            |Новые дельта на итерации $step
+            |$deltas
+        """.trimMargin()
+    )
 }
