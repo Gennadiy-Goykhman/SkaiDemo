@@ -11,7 +11,7 @@ interface SkaiModel {
 internal open class MainSkaiModel(
     private val skaiScope: BuilderSkaiScope,
     private val modelActions: BuilderSkaiScope.() -> Unit
-): SkaiModel, BackPropogation<BuilderSkaiScope> by BackPropogationExecutor() {
+): SkaiModel, BackPropagation<BuilderSkaiScope> by BackPropagationExecutor() {
     override fun train(objects: ObjectsArray, targets: TargetsArray, epochs: Int) =
         repeat(epochs){ epoch ->
             skaiScope.goForward(objects, targets, epoch+1, modelActions)

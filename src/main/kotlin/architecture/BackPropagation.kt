@@ -1,7 +1,5 @@
 package architecture
 
-import org.jetbrains.kotlinx.multik.api.d1array
-import org.jetbrains.kotlinx.multik.api.d2array
 import org.jetbrains.kotlinx.multik.api.linalg.dot
 import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.ndarray
@@ -12,13 +10,13 @@ import org.jetbrains.kotlinx.multik.ndarray.operations.*
 import java.util.*
 import kotlin.random.Random
 
-internal interface BackPropogation<T: SkaiScope> {
+internal interface BackPropagation<T: SkaiScope> {
     fun T.goForward(objects: ObjectsArray, targets: TargetsArray, epochNumber: Int, actions: T.() -> Unit)
 
     fun T.goBackward(targets: TargetsArray)
 }
 
-class BackPropogationExecutor<T: SkaiScope>: BackPropogation<T> {
+class BackPropagationExecutor<T: SkaiScope>: BackPropagation<T> {
 
     private val randomizer = Random(Long.MAX_VALUE)
 
